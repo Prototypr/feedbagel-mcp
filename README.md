@@ -24,7 +24,7 @@ Or run via `npx feedbagel-mcp` without installing.
       "command": "npx",
       "args": ["-y", "feedbagel-mcp"],
       "env": {
-        "FEEDBAGEL_API_KEY": "fbk_..."
+        "FEEDBAGEL_API_KEY": "fb_..."
       }
     }
   }
@@ -33,7 +33,7 @@ Or run via `npx feedbagel-mcp` without installing.
 
 ## Tools
 
-18 tools across discovery, follows, webhooks, and entry reads.
+17 tools across discovery, follows, webhooks, and entry reads.
 
 **Discovery (read)**
 - `search_feeds` — keyword search across the catalog

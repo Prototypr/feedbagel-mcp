@@ -19,7 +19,7 @@ const client = new FeedbagelClient({
     apiKey,
     baseUrl: process.env.FEEDBAGEL_API_BASE,
 });
-const server = new Server({ name: "feedbagel-mcp", version: "0.1.0" }, { capabilities: { tools: {} } });
+const server = new Server({ name: "feedbagel-mcp", version: "0.1.1" }, { capabilities: { tools: {} } });
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: TOOLS.map((t) => ({
         name: t.name,

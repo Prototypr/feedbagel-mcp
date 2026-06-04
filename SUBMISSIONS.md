@@ -1,87 +1,92 @@
 # feedbagel-mcp directory submissions
 
+> Landscape as of 2026-06-04. The big GitHub "awesome" lists have mostly moved
+> off PRs: the official `modelcontextprotocol/servers` retired its community
+> list in favour of the registry, `wong2` and `cursor.directory` now take
+> web-form submissions. Only `punkpeye` and `appcypher` still accept PRs.
+
 ## Canonical metadata (reuse everywhere)
 
 - **Name:** Feedbagel
+- **Registry name:** `io.github.prototypr/feedbagel`
 - **Package:** `feedbagel-mcp` (npm)
 - **Repo:** https://github.com/Prototypr/feedbagel-mcp
 - **Homepage:** https://feedbagel.com/docs#mcp
 - **License:** MIT
 - **Language:** TypeScript
 - **Transport:** stdio
-- **Auth:** API key (`FEEDBAGEL_API_KEY`)
-- **Category:** RSS / Content / Productivity
+- **Auth:** API key (`FEEDBAGEL_API_KEY`, prefix `fb_…`, Agent scope)
+- **Tools:** 17 (6 read discovery, 1 read account, 10 write follows/webhooks)
+- **Category:** RSS / Content / Search / Productivity
 
 ### One-liners
 
 - **Short (under 80 chars):** "Follow RSS feeds and manage webhook subscriptions through Feedbagel."
-- **Medium:** "MCP server for Feedbagel. Search feeds, follow them, and route new entries to webhooks. 18 tools, stdio, API-key auth."
-- **Long:** "Feedbagel is a feed reader with a clean v1 API. This MCP server gives agents 18 tools to search the feed catalog, follow feeds on the user's behalf, and create webhook subscriptions that push new entries to any URL. Useful for content monitoring, newsletter automation, and research workflows."
+- **Medium:** "MCP server for Feedbagel. Search feeds, follow them, and route new entries to webhooks. 17 tools, stdio, API-key auth."
+- **Long:** "Feedbagel is a feed reader with a clean v1 API. This MCP server gives agents 17 tools to search the feed catalog, follow feeds on the user's behalf, and create webhook subscriptions that push new entries to any URL. Useful for content monitoring, newsletter automation, and research workflows."
 
 ### Tags
 `rss`, `atom`, `feeds`, `content`, `webhooks`, `monitoring`, `news`, `automation`
 
 ---
 
-## PR-accepting directories (I can draft the PR for you)
+## 1. Official MCP Registry (registry.modelcontextprotocol.io)
 
-### 1. modelcontextprotocol/servers (official)
-- Repo: https://github.com/modelcontextprotocol/servers
-- File: `README.md` — community servers section, alphabetical
-- Entry:
-  ```markdown
-  - **[Feedbagel](https://github.com/Prototypr/feedbagel-mcp)** - Follow RSS feeds and manage webhook subscriptions through the Feedbagel API.
-  ```
+Namespace `io.github.prototypr/*` — validated via GitHub auth (Graeme is a
+Prototypr org admin). Prereqs already done in this repo: `mcpName` in
+package.json + `server.json`.
 
-### 2. punkpeye/awesome-mcp-servers
-- Repo: https://github.com/punkpeye/awesome-mcp-servers
-- Section: under a content/RSS category (likely `## Browser Automation` or `## Productivity` — confirm at PR time)
-- Entry:
-  ```markdown
-  - [Prototypr/feedbagel-mcp](https://github.com/Prototypr/feedbagel-mcp) 🟨 🏠 - Follow RSS feeds and route new entries to webhooks via the Feedbagel API.
-  ```
-  (🟨 = TypeScript, 🏠 = self-hosted/API-backed)
+```bash
+# package must be on npm first, carrying the mcpName field
+npm publish --access public          # publishes 0.1.1 with mcpName
 
-### 3. wong2/awesome-mcp-servers
-- Repo: https://github.com/wong2/awesome-mcp-servers
-- Section: Community Servers
-- Entry:
-  ```markdown
-  - [feedbagel-mcp](https://github.com/Prototypr/feedbagel-mcp) - RSS feed search, follows, and webhook subscriptions for agents.
-  ```
+mcp-publisher login github           # device-auth in browser
+mcp-publisher publish                # reads ./server.json
 
-### 4. appcypher/awesome-mcp-servers
-- Repo: https://github.com/appcypher/awesome-mcp-servers
-- Section: alphabetical under a content category
-- Entry:
-  ```markdown
-  - [feedbagel-mcp](https://github.com/Prototypr/feedbagel-mcp) - Feedbagel RSS reader: search, follow, and webhook routing.
-  ```
+# verify
+curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.prototypr/feedbagel"
+```
 
-### 5. cursor.directory/mcp
-- Repo: https://github.com/pontusab/cursor.directory
-- Submits via PR adding a JSON/TSX entry. Format varies; check `src/data/mcps` at PR time.
+This one feeds Glama, cursor.directory auto-detection, and several others
+downstream, so it is the highest-leverage submission.
 
 ---
 
-## Web-form / auto-indexed directories
+## 2. PR-based directories
+
+### punkpeye/awesome-mcp-servers  — ACCEPTS PRs
+- Section: `### 🔎 Search & Data Extraction` (already hosts other RSS servers)
+- Icons: `📇` TypeScript, `☁️` Cloud Service
+- Entry:
+  ```markdown
+  - [Prototypr/feedbagel-mcp](https://github.com/Prototypr/feedbagel-mcp) 📇 ☁️ - Search a curated RSS feed index, follow feeds, and route new entries to webhooks. 17 tools, run via `npx -y feedbagel-mcp`.
+  ```
+
+### appcypher/awesome-mcp-servers  — ACCEPTS PRs
+- Section: `## 🔍 Search & Web`, append to the BOTTOM of the category
+- Icon `<img>` required; one entry per PR; alphabetised by maintainer later
+- Entry:
+  ```markdown
+  - <img src="https://feedbagel.com/favicon.ico" height="14"/> [Feedbagel](https://github.com/Prototypr/feedbagel-mcp) - Search a curated RSS feed index, follow feeds, and route new entries to webhooks via the Feedbagel API.
+  ```
+
+---
+
+## 3. Web-form / auto-indexed directories (no PR)
 
 | Directory | URL | Method |
 |---|---|---|
-| Smithery | https://smithery.ai/new | Auto-pulls from GitHub once submitted; add a `smithery.yaml` for richer listing |
+| Smithery | https://smithery.ai/new | Sign in, point at the GitHub repo; add `smithery.yaml` for a richer card (template below) |
 | mcp.so | https://mcp.so/submit | Web form |
-| Glama | https://glama.ai/mcp/servers | Auto-discovers npm packages tagged `mcp`; usually no action needed |
+| Glama | https://glama.ai/mcp/servers | Auto-discovers from npm/registry; usually no action |
 | PulseMCP | https://www.pulsemcp.com/submit | Web form |
 | MCP Market | https://mcpmarket.com/submit | Web form |
-| mcpservers.org | https://mcpservers.org/submit | Web form |
-| MCP Hub (mcp-hub.com) | https://mcp-hub.com/submit | Web form |
-| Awesome MCP (sindresorhus-style aggregators) | various | PR — covered above |
+| wong2/awesome-mcp-servers | https://mcpservers.org/submit | Web form (repo says "we do not accept PRs") |
+| cursor.directory | https://cursor.directory/plugins/new | Web form; paste repo URL — it auto-detects the repo's `.mcp.json` (already added) and runs a security scan |
 
 ---
 
-## Optional: smithery.yaml for richer listing
-
-If we want a polished Smithery card, add `smithery.yaml` to the MCP repo:
+## smithery.yaml (optional, for a richer Smithery card)
 
 ```yaml
 startCommand:
@@ -103,9 +108,16 @@ startCommand:
 
 ---
 
-## Prereqs before submitting
+## Status checklist
 
-- [ ] Push `README.md` to https://github.com/Prototypr/feedbagel-mcp (currently 404s)
-- [ ] Confirm npm package is published and current (`npm view feedbagel-mcp version`)
-- [ ] Add `mcp`, `model-context-protocol`, `rss`, `feeds` topics to the GitHub repo
-- [ ] Optional: add a screenshot/demo gif for richer cards
+- [x] README pushed to GitHub repo
+- [x] npm package published (`npm view feedbagel-mcp version`)
+- [x] GitHub repo topics: mcp, model-context-protocol, rss, feeds, …
+- [x] GitHub repo homepage + description set
+- [x] `mcpName` added to package.json, `server.json` created
+- [x] `.mcp.json` added for cursor.directory auto-detection
+- [ ] npm 0.1.1 published (carries mcpName) — needs `npm login` as prototypr
+- [ ] Official registry publish (`mcp-publisher publish`)
+- [ ] punkpeye PR opened
+- [ ] appcypher PR opened
+- [ ] Web forms: Smithery, mcp.so, PulseMCP, MCP Market, mcpservers.org, cursor.directory

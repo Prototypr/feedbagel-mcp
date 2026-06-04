@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "feedbagel": {
+      "command": "npx",
+      "args": ["-y", "feedbagel-mcp"],
+      "env": {
+        "FEEDBAGEL_API_KEY": "fb_..."
+      }
+    }
+  }
+}
