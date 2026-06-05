@@ -8,7 +8,7 @@
 ## Canonical metadata (reuse everywhere)
 
 - **Name:** Feedbagel
-- **Registry name:** `io.github.prototypr/feedbagel`
+- **Registry name:** `io.github.Prototypr/feedbagel`
 - **Package:** `feedbagel-mcp` (npm)
 - **Repo:** https://github.com/Prototypr/feedbagel-mcp
 - **Homepage:** https://feedbagel.com/docs#mcp
@@ -44,7 +44,7 @@ mcp-publisher login github           # device-auth in browser
 mcp-publisher publish                # reads ./server.json
 
 # verify
-curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.prototypr/feedbagel"
+curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Prototypr/feedbagel"
 ```
 
 This one feeds Glama, cursor.directory auto-detection, and several others

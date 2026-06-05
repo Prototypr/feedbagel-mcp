@@ -30,7 +30,7 @@ const client = new FeedbagelClient({
 });
 
 const server = new Server(
-  { name: "feedbagel-mcp", version: "0.1.1" },
+  { name: "feedbagel-mcp", version: "0.1.2" },
   { capabilities: { tools: {} } },
 );
 

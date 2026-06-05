@@ -1,7 +1,7 @@
 {
   "name": "feedbagel-mcp",
-  "version": "0.1.1",
-  "mcpName": "io.github.prototypr/feedbagel",
+  "version": "0.1.2",
+  "mcpName": "io.github.Prototypr/feedbagel",
   "description": "MCP server that exposes the feedbagel API to agents",
   "keywords": ["mcp", "model-context-protocol", "feedbagel", "rss", "agent"],
   "homepage": "https://feedbagel.com/docs#mcp",

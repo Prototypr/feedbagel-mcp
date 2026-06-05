@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.prototypr/feedbagel",
+  "name": "io.github.Prototypr/feedbagel",
   "description": "Search RSS feeds, follow them, and route new entries to webhooks via the Feedbagel API.",
   "repository": {
     "url": "https://github.com/Prototypr/feedbagel-mcp",
     "source": "github"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "feedbagel-mcp",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "transport": {
         "type": "stdio"
       },
