@@ -70,7 +70,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
     };
   }
   try {
-    const result = await tool.handler(parsed.data, client);
+    const result = await tool.handler(parsed.data, client.forTool(tool.name));
     return {
       content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
     };

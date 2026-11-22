@@ -8,7 +8,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { FeedbagelClient } from "./client.js";
+import { FeedbagelClient, VERSION } from "./client.js";
 import { TOOLS as PUBLIC_TOOLS } from "./tools.js";
 import { ADMIN_TOOLS } from "./admin-tools.js";
 const apiKey = process.env.FEEDBAGEL_API_KEY;
@@ -24,7 +24,7 @@ const client = new FeedbagelClient({
     apiKey,
     baseUrl: process.env.FEEDBAGEL_API_BASE,
 });
-const server = new Server({ name: "feedbagel-mcp", version: "0.1.2" }, { capabilities: { tools: {} } });
+const server = new Server({ name: "feedbagel-mcp", version: VERSION }, { capabilities: { tools: {} } });
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: TOOLS.map((t) => ({
         name: t.name,
@@ -53,7 +53,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         };
     }
     try {
-        const result = await tool.handler(parsed.data, client);
+        const result = await tool.handler(parsed.data, client.forTool(tool.name));
         return {
             content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         };
@@ -71,6 +71,12 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         };
     }
 });
+// After the handshake the SDK knows the host (e.g. claude-ai, cursor); pass
+// it along so the API's per-key client ledger can name it.
+server.oninitialized = () => {
+    const v = server.getClientVersion();
+    client.setHost(v?.name, v?.version);
+};
 const transport = new StdioServerTransport();
 await server.connect(transport);
 //# sourceMappingURL=index.js.map

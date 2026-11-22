@@ -4,7 +4,7 @@
 // auth, scopes, and rate limits; this client is intentionally dumb.
 
 const DEFAULT_BASE = "https://api.feedbagel.com";
-export const VERSION = "0.1.3";
+export const VERSION = "0.1.4";
 
 export interface ClientOptions {
   apiKey: string;
@@ -24,6 +24,17 @@ export class FeedbagelClient {
     this.baseUrl = (opts.baseUrl ?? DEFAULT_BASE).replace(/\/$/, "");
   }
 
+  // The tool behind the next requests (X-FeedBagel-Tool), so the API's
+  // ledger can say "search_feeds from claude-ai" rather than just the path.
+  private tool: string | null = null;
+
+  forTool(name: string): FeedbagelClient {
+    const c = new FeedbagelClient({ apiKey: this.apiKey, baseUrl: this.baseUrl });
+    c.clientLabel = this.clientLabel;
+    c.tool = name;
+    return c;
+  }
+
   setHost(name?: string, version?: string): void {
     const host = name ? `${name}${version ? `/${version}` : ""}` : "";
     this.clientLabel = host ? `feedbagel-mcp/${VERSION} (${host})` : `feedbagel-mcp/${VERSION}`;
@@ -40,6 +51,7 @@ export class FeedbagelClient {
         Authorization: `Bearer ${this.apiKey}`,
         "X-FeedBagel-Client": this.clientLabel,
         "User-Agent": this.clientLabel,
+        ...(this.tool ? { "X-FeedBagel-Tool": this.tool } : {}),
         ...(body !== undefined ? { "content-type": "application/json" } : {}),
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
