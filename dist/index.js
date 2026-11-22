@@ -9,12 +9,17 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { FeedbagelClient } from "./client.js";
-import { TOOLS } from "./tools.js";
+import { TOOLS as PUBLIC_TOOLS } from "./tools.js";
+import { ADMIN_TOOLS } from "./admin-tools.js";
 const apiKey = process.env.FEEDBAGEL_API_KEY;
 if (!apiKey) {
     console.error("feedbagel-mcp: FEEDBAGEL_API_KEY is not set. Mint a key at https://feedbagel.com/dashboard/keys (pick 'Agent') and add it to your MCP server config.");
     process.exit(1);
 }
+// Admin tools need an Internal (admin) key; only expose them when asked to.
+const TOOLS = process.env.FEEDBAGEL_ADMIN === "1"
+    ? [...PUBLIC_TOOLS, ...ADMIN_TOOLS]
+    : PUBLIC_TOOLS;
 const client = new FeedbagelClient({
     apiKey,
     baseUrl: process.env.FEEDBAGEL_API_BASE,

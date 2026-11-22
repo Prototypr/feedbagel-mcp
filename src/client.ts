@@ -4,6 +4,7 @@
 // auth, scopes, and rate limits; this client is intentionally dumb.
 
 const DEFAULT_BASE = "https://api.feedbagel.com";
+export const VERSION = "0.1.3";
 
 export interface ClientOptions {
   apiKey: string;
@@ -13,11 +14,19 @@ export interface ClientOptions {
 export class FeedbagelClient {
   private apiKey: string;
   private baseUrl: string;
+  // Sent as X-FeedBagel-Client so the API can tell which agent host (Claude,
+  // Cursor, ...) is behind a key. Refined once the MCP handshake names it.
+  private clientLabel = `feedbagel-mcp/${VERSION}`;
 
   constructor(opts: ClientOptions) {
     if (!opts.apiKey) throw new Error("FEEDBAGEL_API_KEY is required");
     this.apiKey = opts.apiKey;
     this.baseUrl = (opts.baseUrl ?? DEFAULT_BASE).replace(/\/$/, "");
+  }
+
+  setHost(name?: string, version?: string): void {
+    const host = name ? `${name}${version ? `/${version}` : ""}` : "";
+    this.clientLabel = host ? `feedbagel-mcp/${VERSION} (${host})` : `feedbagel-mcp/${VERSION}`;
   }
 
   async request(
@@ -29,6 +38,8 @@ export class FeedbagelClient {
       method,
       headers: {
         Authorization: `Bearer ${this.apiKey}`,
+        "X-FeedBagel-Client": this.clientLabel,
+        "User-Agent": this.clientLabel,
         ...(body !== undefined ? { "content-type": "application/json" } : {}),
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
